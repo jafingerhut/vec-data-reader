@@ -1,0 +1,8 @@
+{:paths ["src"]
+ :aliases
+ {:clj {:jvm-opts ["-XX:-OmitStackTraceInFastThrow"]}
+  :socket
+  {:jvm-opts
+   ["-Dclojure.server.repl={:port,50505,:accept,clojure.core.server/repl}"]}
+ }
+}
