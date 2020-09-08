@@ -36,13 +36,32 @@
                            hex-digit-pairs)]
         (apply vector-of :byte byte-list)))))
 
+(defn clojure-vec-of-byte-to-hex-string [vec]
+  (apply str (map #(format "%02x" %) vec)))
+
+;; TBD: This only correctly handles the case of a clojure.core.Vec
+;; object whose elements are of type Byte.
+
+#_(defmethod print-dup clojure.core.Vec [o ^java.io.Writer w]
+  (.write w (str "#my.ns/byte-vec \"" (clojure-vec-of-byte-to-hex-string o)
+                 "\"")))
+
 (comment
 
-(require '[vec-data-reader.vdr :as vdr])
+(require '[vec-data-reader.vdr :as vdr] :reload)
 (def bv0 (vdr/hex-string-to-clojure-core-vec-of-byte "0123456789abcdef007f80ff"))
 (def bv1 (read-string "#my.ns/byte-vec \"0123456789abcdef007f80ff\""))
 (def bv2 #my.ns/byte-vec "0123456789abcdef007f80ff")
 (def bv3 '#my.ns/byte-vec "0123456789abcdef007f80ff")
+
+(vdr/clojure-vec-of-byte-to-hex-string bv0)
+;; "0123456789abcdef007f80ff"
+
+(binding [*print-dup* false] (print bv0))
+;; [1 35 69 103 -119 -85 -51 -17 0 127 -128 -1]nil
+
+(binding [*print-dup* true] (print bv0))
+;; #my.ns/byte-vec "0123456789abcdef007f80ff"nil
 
 bv0
 bv1
