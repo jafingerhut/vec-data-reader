@@ -335,11 +335,6 @@ user=> (emitValue-branch-used (vector-of :byte 1 2 3))
 "clojure.lang.IType (interface that is implemented by all classes created via deftype)"
 ```
 
-Given the existing Clojure implementation in Java as of Clojure
-1.10.1, the following are some options that occur to me for creating a
-literal representation of Clojure persistent vectors containing
-primitive values.
-
 
 ## Analysis of current behavior
 
